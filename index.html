@@ -1,0 +1,575 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>aosp build with vagrant</title>
+  <meta name="author" content="chitacan">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/chitacan.css" id="theme">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/atelier-seaside.light.css">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <!-- 
+  <script>
+    document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+  -->
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h2>Vagrant를 활용해</h2>
+        <h2>AOSP 개발환경 꾸리기</h2>
+        <p>
+          <small style="color:darkgray;">조금 더 편하게...</small>
+        </p>
+          <small>by
+            <a href="https://github.com/chitacan" class="roll">chitacan</a>
+          </small>
+        </p>
+      </section>
+
+      <section>
+        <h2>오늘 이야기 할 내용</h2>
+        <ul>
+          <li>AOSP 개발환경을 갖춘 가상머신 생성</li>
+          <li>AOSP 빌드 & 실행</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>관심있는 것들</h2>
+        <ul>
+          <li>Github<img src="img/sparkling_heart.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></li>
+          <li>Android, Chromium, Node.js</li>
+          <li>Vim, Tmux, Vagrant</li>
+          <li>BitTorrent, reveal.js</li>
+          <li>안드로이드 플랫폼 스터디</li>
+          <li>크로미움 원정대</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1>AOSP,</h1>
+        <p>
+          <small style="color:darkgray;">(Android Open Source Project)</small>
+        </p>
+        <h2>빌드 하시나요?</h2>
+      </section>
+
+      <section class="stack">
+        <section>
+          <h2>어렵진 않습니다.</h2>
+          <p>
+            <small style="color:darkgray;">단지 조금, 아주 조금 귀찮을 뿐이죠...</small>
+          </p>
+          <pre><code class="xml">
+  $ curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  $ chmod a+x ~/bin/repo
+  $ mkdir android-4.4_r1 && cd android-4.4_r1
+  $ repo init -u https://android.googlesource.com/platform/manifest -b android-4.4_r1
+  $ repo sync
+  $ . build/envsetup
+  $ lunch
+  $ make
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>뭐가 좋냐구요?</h2>
+        </section>
+
+        <section>
+          <h2>내 손으로 빌드한 운영체제!!</h2>
+          <p>게다가 소스도 다 있어!!<img src="img/scream.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
+          <img src="img/mine.gif" alt="">
+        </section>
+
+        <section>
+          <h2>아무 프로세스나 디버그!!</h2>
+          <img src="img/debug.gif" alt="">
+        </section>
+
+        <section>
+          <h2>뷰 구조도!!</h2>
+          <img src="img/hierarchy.gif" alt="">
+        </section>
+
+        <section>
+          <h2>root@</h2>
+          <img src="img/root.gif" alt="">
+        </section>
+
+        <section>
+          <h2>뭐가 좋냐구요?</h2>
+          <p>AOSP 를 직접 빌드하시면,</p>
+          <p>AOSP 코드를 탐험하기가 <b class="underline">완전</b> 편해집니다.<img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
+        </section>
+      </section>
+
+      <section class="stack">
+        <section>
+          <h2>AOSP 개발환경은 가상머신에</h2>
+          <ul>
+            <li>AOSP 버전별로 독립적인 개발환경 유지</li>
+            <li>suspend 기능을 활용해 내가 개발하던 환경을 그대로 저장</li>
+          </ul>
+        </section>
+        <section>
+          <h2>하지만,</h2>
+          <h2>설정하는 건 지겹습니다.</h2>
+        </section>
+        <section>
+          <h2>가상머신 설정</h2>
+          <p>+ 설치시간...</p>
+          <img src="img/ubuntu.gif" alt="">
+        </section>
+        <section>
+          <h2>AOSP 빌드에 필요한 패키지들</h2>
+          <ul>
+            <li>repo</li>
+            <li>JDK 6</li>
+            <li>git</li>
+            <li>make </li>
+            <li>gnupg</li>
+            <li>build-essential</li>
+            <li>외 20개의 패키지</li>
+          </ul>
+        </section>
+        <section>
+          <h2>다른 도구들도...</h2>
+          <ul>
+            <li>tmux</li>
+            <li>vim + plugins (unite, fugitive...)</li>
+            <li>node.js</li>
+            <li>등등등</li>
+          </ul>
+        </section>
+        <section>
+          <h2>AOSP는 사정없이 릴리즈!!</h2>
+          <ul>
+            <li>android-4.1.1_r1</li>
+            <li>android-4.2.2_r1</li>
+            <li>android-4.3_r1</li>
+            <li>android-4.4_r1</li>
+            <li>...</li>
+          </ul>
+        </section>
+        <section>
+          <h1>아놔...</h1>
+          <img src="img/angry.gif" alt="" style="box-shadow:0 0 0px">
+        </section>
+        <section>
+          <h2>AOSP 개발환경이 설정된</h2>
+          <h2>가상머신을 막 찍어낼 수 없을까?</h2>
+        </section>
+      </section>
+      <section class="stack">
+        <section>
+          <h1>Vagrant</h1>
+          <ul>
+            <li>vmware, virtualbox의 가상머신 생성과정을 단순화</li>
+            <li>텍스트 파일 기반으로 가상머신을 구성</li>
+            <li>Windows, OSX, Debian, Ubuntu, CentOS 지원</li>
+            <li><a href="http://www.vagrantup.com/blog/vagrant-1-5-and-vagrant-cloud.html">1.5 업데이트</a>(vagrant share, vagrant cloud)</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Vagrant 시작하기</h1>
+          <ul>
+            <li>Virtualbox & Vagrant 설치<br>(<a href="http://www.vagrantup.com/">vagrantup.com</a>)</li>
+            <li>Vagrantfile 작성</li>
+            <li>vagrant up</li>
+            <li>vagrant ssh</li>
+          </ul>
+        </section>
+        <section data-bgurl="http://localhost:3000">
+        </section>
+        <section>
+          <h1>장점</h1>
+          <ul>
+            <li>box, Vagrantfile 을 활용해 가상머신을 막 찍어낼 수 있다!!</li>
+            <li>기존의 box에 도구를 설치해 다시 box로 패키징 & 배포 할 수 있다!!</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Vagrant</h1>
+          <p>AOSP 개발환경이 세팅된 box를 만들면<img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
+        </section>
+      </section>
+
+      <section class="stack">
+        <section>
+          <h2>그래서 만들었습니다.</h2>
+          <p><a href="http://goo.gl/ftM2P9">robust-android-v1.box</a></p>
+          <pre><code class="ruby">
+    # -*- mode: ruby -*-
+    # vi: set ft=ruby :
+
+    VAGRANTFILE_API_VERSION = "2"
+
+    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+      config.vm.box = "robust-android-v1"
+
+      config.vm.box_url = "http://goo.gl/ftM2P9"
+
+      config.vm.provider :virtualbox do |vb|
+        vb.name = "robust-android-v1"
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+        vb.customize ["modifyvm", :id, "--cpus", "1"]
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+      end
+    end
+          </code></pre>
+          <small style="text-align:right; width: 90%;">on <a href="https://gist.github.com/chitacan/f8f8c2702c367df515de">Gist</a></small>
+        </section>
+        <section>
+          <h2>뭐가 들어있나?</h2>
+          <ul>
+            <li>AOSP 개발환경</li>
+            <li>repo manifest(android-4.4_r1, android-4.2_r1)</li>
+            <li>vi + plugins, tmux 등등등</li>
+            <li>그래서 용량이 1.3GB</li>
+          </ul>
+        </section>
+        <section>
+          <h2>실행하기</h2>
+          <pre><code class="xml">
+          $ wget http://goo.gl/OnTHI4 -O Vagrantfile
+          $ vagrant up
+          $ vagrant ssh
+          vagrant$ cd workspace/android-4.4_r1/
+          vagrant$ repo sync
+          vagrant$ . build/envsetup
+          vagrant$ lunch
+          vagrant$ make
+          </code></pre>
+          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
+        </section>
+        <section>
+          <h2>원래는 여기까지가 Vagrant 파트...</h2>
+        </section>
+        <section>
+          <h2>robust-android-v1.box 의 문제</h2>
+          <ul>
+            <li>박스의 내용이 변경되면 다시 패키징해서 업로드</li>
+            <li>1.5 GB 의 용량 덕택에 업 & 다운로드 시간이<img src="img/scream.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></li>
+            <li>드롭박스의 파일공유에는 트래픽 제한이 있음</li>
+            <li>모든 환경이 설정된 box를 관리하는 건 빡시다!!</li>
+          </ul>
+        </section>
+        <section>
+          <h2>설정과정도 분리하고 싶다!!</h2>
+          <ul>
+            <li>box는 순정상태로 두고,</li>
+            <li>가상머신이 생성될 때 환경을 설정할 수 있다면?</li>
+          </ul>
+        </section>
+      </section>
+
+      <section class="stack">
+        <section>
+          <h1>Provisioning</h1>
+          <ul>
+            <li>시스템 구성(패키지 & 도구 설치, 설정 변경, 파일 생성 등)</li>
+            <li>vagrant 는 shell script, chef, puppet 등을 지원</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Puppet?</h1>
+          <p><a href="http://puppetlabs.com/">puppetlabs.com</a></p>
+          <ul>
+            <li>시스템 구성 자동화 도구</li>
+            <li>시스템을 구성하는데 필요한 것들을 파일(*.pp)에 선언</li>
+            <li>vagrant, Ubuntu 와 완전 잘 연동</li>
+            <li>이미 설치되어 있거나, 생성된 리소스가 있으면 그대로</li>
+            <li>Github 이 쓴다고!?<img src="img/sparkling_heart.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px">(<a href="http://boxen.github.com/">Boxen</a>)</li>
+          </ul>
+        </section>
+        <section>
+          <h1>*.pp</h1>
+          <pre><code class="ruby">
+                file { 'one':
+                       path => '/vagrant/one',
+                       content => 'one',
+                }
+                file { 'two': 
+                       path => '/vagrant/two',
+                       source => '/vagrant/one',
+                }
+
+                File['one'] -> File['two']
+          </code></pre>
+        </section>
+        <section>
+          <h2>vagrant + puppet</h2>
+          <ul>
+            <li>box는 vagrant cloud의 <a href="https://vagrantcloud.com/hashicorp/precise64">hashicorp/precise64</a>를 사용</li>
+            <li>AOSP 개발환경을 설정하는 puppet 스크립트 작성</li>
+            <li>이제 Vagrantfile, puppet 스크립트만 있으면  AOSP 빌드 환경이<img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Vagrant와puppet 연동하기</h2>
+          <pre><code class="ruby">
+    # -*- mode: ruby -*-
+    # vi: set ft=ruby :
+
+    VAGRANTFILE_API_VERSION = "2"
+
+    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+      config.vm.box = "hashicorp/precise64"
+
+      config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
+        vb.customize ["modifyvm", :id, "--cpus", "1"]
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "80"]
+      end
+
+      config.vm.provision "puppet" do |puppet|
+        puppet.module_path    = "modules"
+        puppet.manifests_path = "manifests"
+        puppet.manifest_file  = "default.pp"
+        puppet.options = ['--verbose', '--debug']
+      end
+    end
+          </code></pre>
+        </section>
+        <section>
+          <h2>default.pp</h2>
+          <p>자세한 내용은 <a href="https://github.com/chitacan/aosp-env">aosp-env</a> 로 !!</p>
+          <pre><code class="ruby">
+    class java {
+     # Prepare response file
+     file { "/tmp/oracle-java6-installer.preseed":
+       source => '/vagrant/files/java.response',
+       mode   => 600,
+       backup => false,
+     } ->
+     # Install Java
+     package { "oracle-java6-installer":
+       ensure       => "installed",
+       responsefile => '/tmp/oracle-java6-installer.preseed'
+     } ->
+     package { "oracle-java6-set-default": ensure => "installed" }
+    }
+    
+    class repo {
+     curl::fetch { 'repo':
+       source      => 'http://commondatastorage.googleapis.com/git-repo-downloads/repo',
+       destination => '/usr/local/bin/repo'
+     } ->
+     file { 'change-premission':
+       path => '/usr/local/bin/repo',
+       mode => 'ugo+x',
+       owner  => 'vagrant',
+       group  => 'vagrant'
+     }
+    }
+    
+    define aosp (
+     $branch='android-4.4_r1',
+     $url = "https://android.googlesource.com/platform/manifest"
+    ){
+     $cmd_init = "repo init -u ${url} -b ${branch}"
+     file { "/home/vagrant/workspace/${branch}":
+       ensure => 'directory',
+       owner  => 'vagrant',
+       group  => 'vagrant'
+     } ~>
+     exec { "init-${branch}":
+       path        => ['/bin', '/usr/bin', '/usr/local/bin'],
+       cwd         => "/home/vagrant/workspace/${branch}",
+       command     => "sudo su -c '${cmd_init}' -s /bin/sh vagrant",
+       user        => 'vagrant',
+       group       => 'vagrant',
+       refreshonly => true
+     }
+    }
+          </code></pre>
+        </section>
+        <section>
+          <h2>실행하기</h2>
+          <pre><code class="xml">
+          $ git clone https://github.com/chitacan/aosp-env
+          $ cd aosp-env
+          $ vagrant up
+          </code></pre>
+          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
+        </section>
+        <section>
+          <h2>vagrant + puppet</h2>
+          <ul>
+            <li>box 사이즈 : 1.3GB >> 300MB</li>
+            <li>설정 파일의 버전관리가 가능</li>
+          </ul>
+        </section>
+      </section>
+
+      <section class="stack">
+        <section>
+          <h2>빌드해 봅시다.</h2>
+          <pre><code class="xml">
+          $ vagrant ssh
+          vagrant$ cd workspace/android-4.4_r1/
+          vagrant$ repo sync
+          vagrant$ . build/envsetup
+          vagrant$ lunch
+          vagrant$ make
+          </code></pre>
+        </section>
+        <section>
+          <h2>build/envsetup</h2>
+          <p>유용한 도구들이 추가됩니다.</p>
+          <pre><code class="xml">
+  vagrant$ . build/envsetup
+  vagrant$ hmm
+  Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:
+  - lunch:   lunch <product_name>-<build_variant>
+  - tapas:   tapas [<App1> <App2> ...] [arm|x86|mips|armv5] [eng|userdebug|user]
+  - croot:   Changes directory to the top of the tree.
+  - m:       Makes from the top of the tree.
+  - mm:      Builds all of the modules in the current directory, but not their dependencies.
+  - mmm:     Builds all of the modules in the supplied directories, but not their dependencies.
+  - mma:     Builds all of the modules in the current directory, and their dependencies.
+  - mmma:    Builds all of the modules in the supplied directories, and their dependencies.
+  - cgrep:   Greps on all local C/C++ files.
+  - jgrep:   Greps on all local Java files.
+  - resgrep: Greps on all local res/*.xml files.
+  - godir:   Go to the directory containing a file.
+
+  Look at the source to view more functions. The complete list is:
+  ...
+           </code></pre>
+           <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
+        </section>
+        <section>
+          <h2>NEXUS 5 이미지 빌드하기</h2>
+          <pre><code class="xml">
+          vagrant$ . build/envsetup
+          vagrant$ lunch
+          vagrant$ make -j8 updatepackage
+          vagrant$ cp out/target/product/hammerhead/full_hammerhead-img-eng.vagrant.zip /vagrant/
+          vagrant$ exit
+          $ adb reboot bootloader
+          $ fastboot -w update full_hammerhead-img-eng.vagrant.zip
+          </code></pre>
+          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
+        </section>
+        <section>
+          <h2>단말이 없으면 어떻하나요?</h2>
+          <p>에뮬레이터를 빌드하시면 됩니다.<small style="color:darkgray;">(디버깅엔 더 편합니다.)</small></p>
+          <pre><code class="xml">
+          vagrant$ . build/envsetup
+          vagrant$ lunch
+          vagrant$ make
+          vagrant$ emulator -no-window
+          </code></pre>
+          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
+        </section>
+      </section>
+
+      <section>
+        <h2>지금까지</h2>
+        <ul>
+          <li>vagrant (+puppet) 을 활용한 AOSP 개발환경 생성</li>
+          <li>빌드, 실행시 사용할 수 있는 도구</li>  
+        </ul>  
+      </section>
+
+      <section>
+        <h2>향후계획</h2>
+        <ul>
+          <li><a href="https://github.com/chitacan/aosp-env">aosp-env</a>를 puppet module로 작성?</li>
+          <li>jdb, gdb를 활용한 AOSP 디버그</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 style="font-size:5em;">끝</h1>
+        <small style="color:darkgray;">Just Vagrant Up.</small>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      rollingLinks:true,
+
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+      backgroundTransition: 'slide',
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [
+        {
+          src: 'lib/js/classList.js', 
+          condition: function() { 
+            return !document.body.classList;
+          } 
+        },
+        { 
+          src: 'plugin/markdown/showdown.js', 
+          condition: function() { 
+            return !!document.querySelector( '[data-markdown]' );
+          }
+        },
+        { 
+          src: 'plugin/markdown/markdown.js',
+          condition: function() { 
+            return !!document.querySelector( '[data-markdown]' );
+          }
+        },
+        { 
+          src: 'plugin/highlight/highlight.js', 
+          async: true, 
+          callback: function() {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+        {
+          src: 'plugin/ibg/ibg.js',
+          async: true,
+          callback: function() {
+            ibg.init();
+          }
+        },
+        {
+          src: 'plugin/jump/jump.js',
+          async: true,
+          callback: function() {
+            jump.init();
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -15,4 +15,4 @@ $ grunt
 
 ## 참고
 
-사용된 플러그인 : [깃 사직하기](https://github.com/chitacan/getting-started-with-git#revealjs-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8) 참고
+사용된 플러그인 : [깃 시작하기](https://github.com/chitacan/getting-started-with-git#revealjs-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8) 참고

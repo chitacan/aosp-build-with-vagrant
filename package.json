@@ -11,7 +11,6 @@
   "dependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "~0.6.0",
-    "load-grunt-tasks": "~0.3.0",
-    "tty.js": "~0.2.13"
+    "load-grunt-tasks": "~0.3.0"
   }
 }

@@ -46,29 +46,29 @@
       <section>
         <h2>오늘 이야기 할 내용</h2>
         <ul>
-          <li>AOSP 개발환경을 갖춘 가상머신 생성</li>
+          <li>AOSP 왜 빌드 해봐야 하나?</li>
+          <li>AOSP 빌드환경을 갖추기</li>
           <li>AOSP 빌드 & 실행</li>
         </ul>
       </section>
 
       <section>
-        <h2>관심있는 것들</h2>
+        <h2>About Me</h2>
         <ul>
           <li>Github<img src="img/sparkling_heart.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></li>
           <li>Android, Chromium, Node.js</li>
           <li>Vim, Tmux, Vagrant</li>
           <li>BitTorrent, reveal.js</li>
-          <li>안드로이드 플랫폼 스터디</li>
-          <li>크로미움 원정대</li>
+          <li>자동화 with Hubot</li>
         </ul>
       </section>
 
       <section>
-        <h1>AOSP,</h1>
+        <h1>AOSP</h1>
         <p>
           <small style="color:darkgray;">(Android Open Source Project)</small>
         </p>
-        <h2>빌드 하시나요?</h2>
+        <h2>빌드, 해보셨나요?</h2>
       </section>
 
       <section class="stack">
@@ -78,10 +78,10 @@
             <small style="color:darkgray;">단지 조금, 아주 조금 귀찮을 뿐이죠...</small>
           </p>
           <pre><code class="xml">
-  $ curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  $ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
   $ chmod a+x ~/bin/repo
-  $ mkdir android-4.4_r1 && cd android-4.4_r1
-  $ repo init -u https://android.googlesource.com/platform/manifest -b android-4.4_r1
+  $ mkdir android-5.0.2_r1 && cd android-5.0.2_r1
+  $ repo init -u https://android.googlesource.com/platform/manifest -b android-5.0.2_r1
   $ repo sync
   $ . build/envsetup
   $ lunch
@@ -90,12 +90,11 @@
         </section>
 
         <section>
-          <h2>뭐가 좋냐구요?</h2>
+          <h2>빌드하면 뭐가 좋나요?</h2>
         </section>
 
         <section>
           <h2>내 손으로 빌드한 운영체제!!</h2>
-          <p>게다가 소스도 다 있어!!<img src="img/scream.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
           <img src="img/mine.gif" alt="">
         </section>
 
@@ -115,6 +114,14 @@
         </section>
 
         <section>
+          <h2>And More</h2>
+          <ul>
+            <li><a href="https://gist.github.com/chitacan/11200703">hack aosp with gdb</a></li>
+            <li><a href="https://gist.github.com/chitacan/9802668">카카오톡 움직이는 이모티콘을 gif 로</a></li>
+          </ul>
+        </section>
+
+        <section>
           <h2>뭐가 좋냐구요?</h2>
           <p>AOSP 를 직접 빌드하시면,</p>
           <p>AOSP 코드를 탐험하기가 <b class="underline">완전</b> 편해집니다.<img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
@@ -123,7 +130,7 @@
 
       <section class="stack">
         <section>
-          <h2>AOSP 개발환경은 가상머신에</h2>
+          <h2>AOSP 빌드환경은 가상머신이 편합니다.</h2>
           <ul>
             <li>AOSP 버전별로 독립적인 개발환경 유지</li>
             <li>suspend 기능을 활용해 내가 개발하던 환경을 그대로 저장</li>
@@ -142,12 +149,12 @@
           <h2>AOSP 빌드에 필요한 패키지들</h2>
           <ul>
             <li>repo</li>
-            <li>JDK 6</li>
+            <li>JDK 7</li>
             <li>git</li>
             <li>make </li>
             <li>gnupg</li>
             <li>build-essential</li>
-            <li>외 20개의 패키지</li>
+            <li><a href="http://s.android.com/source/initializing.html">외 20개의 패키지</a></li>
           </ul>
         </section>
         <section>
@@ -162,15 +169,18 @@
         <section>
           <h2>AOSP는 사정없이 릴리즈!!</h2>
           <ul>
-            <li>android-4.1.1_r1</li>
-            <li>android-4.2.2_r1</li>
-            <li>android-4.3_r1</li>
-            <li>android-4.4_r1</li>
-            <li>...</li>
+            <li>android-5.0.0_r1</li>
+            <li>android-5.0.0_r2</li>
+            <li>android-5.0.1_r1</li>
+            <li>android-5.0.2_r1</li>
+            <li><a href="https://android.googlesource.com/platform/manifest/+refs">등등</a></li>
           </ul>
         </section>
         <section>
-          <h1>아놔...</h1>
+          <h2>버전별로 이걸 다 해야되?</h2>
+          <p>
+            <small style="color:darkgray;">아놔...</small>
+          </p>
           <img src="img/angry.gif" alt="" style="box-shadow:0 0 0px">
         </section>
         <section>
@@ -205,8 +215,9 @@
           </ul>
         </section>
         <section>
-          <h1>Vagrant</h1>
-          <p>AOSP 개발환경이 세팅된 box를 만들면<img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
+          <h2>그럼,</h2>
+          <p>AOSP 개발환경이 세팅된 box를 만들고,</p>
+          <p>드롭박스로 공유하면 편하지 않을까 ? <img src="img/sparkles.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></p>
         </section>
       </section>
 
@@ -239,10 +250,10 @@
         <section>
           <h2>뭐가 들어있나?</h2>
           <ul>
-            <li>AOSP 개발환경</li>
-            <li>repo manifest(android-4.4_r1, android-4.2_r1)</li>
+            <li><a href="http://s.android.com/source/initializing.html">AOSP 개발환경</a></li>
+            <li>android-4.4_r1, android-4.2_r1</li>
             <li>vi + plugins, tmux 등등등</li>
-            <li>그래서 용량이 1.3GB</li>
+            <li>그래서 용량이 1.5 GB<img src="img/scream.png" style="margin:0px; border:0px; box-shadow: 0 0 0px; width:40px; height:40px"></li>
           </ul>
         </section>
         <section>
@@ -257,9 +268,6 @@
           vagrant$ lunch
           vagrant$ make
           </code></pre>
-        </section>
-        <section>
-          <h2>원래는 여기까지가 Vagrant 파트...</h2>
         </section>
         <section>
           <h2>robust-android-v1.box 의 문제</h2>
@@ -349,57 +357,19 @@
           </code></pre>
         </section>
         <section>
-          <h2>default.pp</h2>
-          <p>자세한 내용은 <a href="https://github.com/chitacan/aosp-env">aosp-env</a> 로 !!</p>
+          <h2>aosp-env</h2>
+          <p><a href="https://github.com/chitacan/aosp-env">https://github.com/chitacan/aosp-env</a></p>
+          <ul>
+            <li>빌드환경은 puppet 스크립트로 설정</li>
+            <li>aospversion 값을 통해 빌드할 aosp 버전 설정</li>
           <pre><code class="ruby">
-    class java {
-     # Prepare response file
-     file { "/tmp/oracle-java6-installer.preseed":
-       source => '/vagrant/files/java.response',
-       mode   => 600,
-       backup => false,
-     } ->
-     # Install Java
-     package { "oracle-java6-installer":
-       ensure       => "installed",
-       responsefile => '/tmp/oracle-java6-installer.preseed'
-     } ->
-     package { "oracle-java6-set-default": ensure => "installed" }
-    }
-    
-    class repo {
-     curl::fetch { 'repo':
-       source      => 'http://commondatastorage.googleapis.com/git-repo-downloads/repo',
-       destination => '/usr/local/bin/repo'
-     } ->
-     file { 'change-premission':
-       path => '/usr/local/bin/repo',
-       mode => 'ugo+x',
-       owner  => 'vagrant',
-       group  => 'vagrant'
-     }
-    }
-    
-    define aosp (
-     $branch='android-4.4_r1',
-     $url = "https://android.googlesource.com/platform/manifest"
-    ){
-     $cmd_init = "repo init -u ${url} -b ${branch}"
-     file { "/home/vagrant/workspace/${branch}":
-       ensure => 'directory',
-       owner  => 'vagrant',
-       group  => 'vagrant'
-     } ~>
-     exec { "init-${branch}":
-       path        => ['/bin', '/usr/bin', '/usr/local/bin'],
-       cwd         => "/home/vagrant/workspace/${branch}",
-       command     => "sudo su -c '${cmd_init}' -s /bin/sh vagrant",
-       user        => 'vagrant',
-       group       => 'vagrant',
-       refreshonly => true
-     }
-    }
+    config.vm.provision "puppet" do |puppet|
+      puppet.facter = {
+        "aospversion" => "android-5.0.2_r1"
+      }
+    end
           </code></pre>
+          </ul>
         </section>
         <section>
           <h2>실행하기</h2>
@@ -408,13 +378,13 @@
           $ cd aosp-env
           $ vagrant up
           </code></pre>
-          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
         </section>
         <section>
           <h2>vagrant + puppet</h2>
           <ul>
-            <li>box 사이즈 : 1.3GB >> 300MB</li>
+            <li>box 사이즈 : 1.5 GB 에서 300 MB 로 감소</li>
             <li>설정 파일의 버전관리가 가능</li>
+            <li>하지만, 머신의 최초 구동 시간은 늘어남</li>
           </ul>
         </section>
       </section>
@@ -422,9 +392,12 @@
       <section class="stack">
         <section>
           <h2>빌드해 봅시다.</h2>
+        </section>
+        <section>
+          <h2>우선 소스를...</h2>
           <pre><code class="xml">
           $ vagrant ssh
-          vagrant$ cd workspace/android-4.4_r1/
+          vagrant$ cd workspace/android-5.0.2_r1/
           vagrant$ repo sync
           vagrant$ . build/envsetup
           vagrant$ lunch
@@ -454,21 +427,37 @@
   Look at the source to view more functions. The complete list is:
   ...
            </code></pre>
-           <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
         </section>
         <section>
           <h2>NEXUS 5 이미지 빌드하기</h2>
           <pre><code class="xml">
-          vagrant$ . build/envsetup
-          vagrant$ lunch
-          vagrant$ make -j8 updatepackage
-          vagrant$ cp out/target/product/hammerhead/full_hammerhead-img-eng.vagrant.zip /vagrant/
-          vagrant$ exit
-          $ adb reboot bootloader
-          $ fastboot -w update full_hammerhead-img-eng.vagrant.zip
+      vagrant$ . build/envsetup
+      vagrant$ lunch
+      vagrant$ make -j8 updatepackage
+      vagrant$ cp out/target/product/hammerhead/full_hammerhead-img-eng.vagrant.zip /vagrant/
+      vagrant$ exit
+      $ adb reboot bootloader
+      $ fastboot -w update full_hammerhead-img-eng.vagrant.zip
           </code></pre>
-          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
         </section>
+        <section>
+          <h2>빌드 시간은?</h2>
+          <p>
+            <small style="color:darkgray;">i7 -2600 3.4 GHz, 16 GB, HDD 1 TB (7200 rpm)</small>
+          </p>
+          <ul>
+            <li>가상머신 설정</li>
+            <pre><code class="ruby">
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", (1024*12).to_s]
+    vb.customize ["modifyvm", :id, "--cpus", 8]
+    vb.customize ["modifyvm", :id, "--cpuexecutioncap", 90]
+  end
+           </code></pre>
+           <li>android-5.0.2_r1 기준으로 약 1h 55m</li> 
+          </ul>
+        </section>
+
         <section>
           <h2>단말이 없으면 어떻하나요?</h2>
           <p>에뮬레이터를 빌드하시면 됩니다.<small style="color:darkgray;">(디버깅엔 더 편합니다.)</small></p>
@@ -478,10 +467,16 @@
           vagrant$ make
           vagrant$ emulator -no-window
           </code></pre>
-          <small style="text-align:right; width: 90%;"><a href="#/6/2" class="jump">Demo</a></small>
         </section>
       </section>
 
+      <section>
+        <h2>Side Project</h2>
+        <ul>
+          <li><a href="http://www.youtube.com/watch?v=NST3u-GjjFw">ChatOps</a> with  <a href="https://github.com/chitacan/hubot-vagrant">hubot-vagrant</a></li>
+          <li>Hack adb with <a href="https://github.com/chitacan/lets-dig-adb">let's dig adb</a></li>
+        </ul>
+      </section>
       <section>
         <h2>지금까지</h2>
         <ul>
@@ -491,10 +486,12 @@
       </section>
 
       <section>
-        <h2>향후계획</h2>
+        <h2>TODO</h2>
         <ul>
           <li><a href="https://github.com/chitacan/aosp-env">aosp-env</a>를 puppet module로 작성?</li>
-          <li>jdb, gdb를 활용한 AOSP 디버그</li>
+          <li>더 많은 Provider 지원 (<a href="http://aws.amazon.com/ko/ec2/pricing/">Amazon EC2?</a>)</li>
+          <li>Build Notifier (with slack?)</li>
+          <li>Source Exports</li>
         </ul>
       </section>
 
